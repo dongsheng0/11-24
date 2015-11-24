@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	body{ background:#000; text-align:center;}
+		.c1{ background: #fff;}
+	}
+	</style>
+	<script>
+	window.onload=function(){
+		var oC=document.querySelector('.c1');
+		var gc=oC.getContext('2d');
+		var left=0;
+		setInterval(function(){
+			gc.clearRect(0,0,oC.width,oC.height);
+			left++;
+			if(left>800){
+				left=0;
+			}
+			gc.strokeRect(left,200,200,200);
+		},16);
+	};
+	</script>
+</head>
+<body>
+	<canvas class="c1" width="800" height="600"></canvas>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body{ text-align: center; background: #000;}
+		.c1{ background: #fff;}
+	</style>
+	<script>
+	window.onload=function(){
+		var oC=document.querySelector('.c1');
+		var gc=oC.getContext('2d');
+
+		gc.beginPath();
+		gc.lineWidth='10';
+		gc.strokeStyle='red';
+		gc.fillStyle='#000';
+		gc.moveTo(100,300);
+		gc.lineTo(300,100);
+		gc.lineTo(300,500);		
+		gc.closePath();
+		gc.stroke();
+		gc.fill();
+		
+		gc.beginPath();
+		gc.lineWidth='20';
+		gc.fillStyle='#f90';
+		gc.strokeStyle='green';
+		gc.moveTo(350,100);
+		gc.lineTo(350,500);
+		gc.lineTo(550,300);
+		gc.closePath();
+		gc.fill();
+		gc.stroke();
+
+
+
+		
+	};
+	</script>
+</head>
+<body>
+	<canvas class="c1" width="800" height="600"></canvas>
+</body>
+</html>

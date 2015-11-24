@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{padding:0; margin:0;}
+		body{ overflow: hidden; }
+		.c1{ background: #000;}
+	}
+	</style>
+	<script>
+	function rnd(n,m){
+		return parseInt(n+Math.random()*(m-n));
+	}
+	window.onload=function(){
+		var oC=document.querySelector('.c1');
+		var gc=oC.getContext('2d');
+		var winH=document.documentElement.clientHeight;
+		var winW=document.documentElement.clientWidth;
+	
+		oC.width=winW;
+		oC.height=winH;
+		var aPoint=[];//[{},{},{}]
+		var oldPos=[];
+		var len=10;
+		var N=5;
+		//保存点
+		for(var i=0;i<N;i++){
+			aPoint[i]={
+				x:rnd(0,winW),
+				y:rnd(0,winH),
+				speedX:rnd(-10,10),
+				speedY:rnd(-10,10)
+			}
+		}
+		//划五个点
+		for(var i=0;i<N;i++){		
+			gc.beginPath()
+			gc.fillStyle='#fff';
+			gc.fillRect(aPoint[i].x,aPoint[i].y,1,1);
+			
+		}
+		//五个点运动
+		var oldPos=[];
+			setInterval(function(){
+				//运动
+				gc.clearRect(0,0,winW,winH);
+				for(var i=0;i<N;i++){						
+					gc.beginPath()
+					aPoint[i].x+=aPoint[i].speedX;
+					aPoint[i].y+=aPoint[i].speedY;
+					if(aPoint[i].x<0){
+						aPoint[i].x=0;
+						aPoint[i].speedX*=-1;						
+					}
+					if(aPoint[i].x>winW){
+						aPoint[i].x=winW;
+						aPoint[i].speedX*=-1;						
+					}
+					if(aPoint[i].y<0){
+						aPoint[i].y=0;
+						aPoint[i].speedY*=-1;						
+					}
+					if(aPoint[i].y>winH){
+						aPoint[i].y=winH;
+						aPoint[i].speedY*=-1;						
+					}						
+					gc.fillStyle='#fff';
+					gc.fillRect(aPoint[i].x,aPoint[i].y,10,10);
+					
+				}
+				//连线
+				gc.beginPath();
+				gc.strokeStyle='#fff';
+				gc.moveTo(aPoint[0].x,aPoint[0].y);
+				for(var i=0;i<aPoint.length;i++){
+					gc.lineTo(aPoint[i].x,aPoint[i].y);
+				}
+				gc.closePath();
+				gc.stroke();
+
+				var arr=[];//保存某一时刻的五个点的位置[{},{},{}]
+				for(var i=0;i<aPoint.length;i++){
+					arr.push({
+						x:aPoint[i].x,
+						y:aPoint[i].y
+					});					
+				}//这时候已经保存
+				oldPos.push(arr);//这个时候就已经的保存了给oldPos
+				for(var i=0;i<oldPos.length;i++){
+					if(i>len){
+						//只保存最后保存的是个点
+						oldPos.shift();
+					}
+				}
+				//把老点的线画出来,老点连线
+				gc.beginPath();
+				for(var i=0;i<oldPos.length;i++){
+					gc.beginPath();
+					var opacity=1-i/oldPos.length;
+						//透明度越小，越模糊
+					gc.strokeStyle='rgba(255,255,255,'+opacity+')';
+
+					gc.moveTo(oldPos[i][0].x,oldPos[i][0].y);//起始点
+					for(var j=0;j<arr.length;j++){
+						gc.lineTo(oldPos[i][j].x,oldPos[i][j].y);
+					}
+					gc.closePath();
+					gc.stroke();
+				}
+				
+
+
+			},16);
+	
+		
+		//3、运动，开定慧寺iq   里面的判断
+		//4、连线，定时I里  
+		//5、保存拉位置  得到十个。华老先(透明度)
+		
+	};
+	</script>
+</head>
+<body>
+	<canvas class="c1"></canvas>
+</body>
+</html>
